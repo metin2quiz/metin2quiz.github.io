@@ -326,12 +326,25 @@ const items = {
 
 };
 
+const questions = [
+    {
+        question: 'Bu eşyanın adı ne?',
+        lookupKeyName: 'itemName'
+    },
+    {
+        question: 'Bu eşyanın seviyesi kaç?',
+        lookupKeyName: 'level'
+    }
+];
+
 const clearScoreElement = document.getElementById('clear-score'),
     correctElement = document.getElementById('correct'),
     wrongElement = document.getElementById('wrong'),
     answersDivElement = document.getElementById('answers'),
     answerButtonElements = document.getElementsByClassName('answer-button'),
-    itemImageElement = document.getElementById('item-image');
+    itemImageElement = document.getElementById('item-image'),
+    questionElement = document.getElementById('question');
+
 
 
 const getRandomCategoryItems = (data) => {
@@ -343,23 +356,28 @@ const getRandomCategoryItems = (data) => {
 };
 
 const newQuestion = () => {
+    const randomQuestion = getRandomQuestion();
     const randomCategoryItems = getRandomCategoryItems(items),
         randomCategoryItemsLength = randomCategoryItems.length;
 
     const answers = [],
         generatedIndexes = [];
     for (let index = 0; index < 4; index++) {
-        let randomItemIndex = getRandomInt(randomCategoryItemsLength - 1, generatedIndexes);
+        let randomItemIndex = getRandomInt(randomCategoryItemsLength, generatedIndexes);
         generatedIndexes.push(randomItemIndex);
         let randomItem = randomCategoryItems[randomItemIndex];
         answers.push(randomItem);
     }
 
+
+    questionElement.innerText = randomQuestion.question;
+    const answerField = randomQuestion.lookupKeyName;
+
     const correctAnswerIndex = getRandomInt(3);
     const correctItem = answers[correctAnswerIndex];
     const imageUrl = `https://tr-wiki.metin2.gameforge.com${correctItem.itemImage}`;
     itemImageElement.setAttribute('src', imageUrl);
-    generateAnswers(answers, correctAnswerIndex);
+    generateAnswers(answers, answerField, correctAnswerIndex);
 };
 
 
@@ -368,14 +386,14 @@ const clearScore = () => {
     wrongElement.innerText = 0;
 };
 
-const generateAnswers = (answers = [], correctIndex = 0) => {
+const generateAnswers = (answers = [], answerField = '', correctIndex = 0) => {
     answersDivElement.innerHTML = '';
     answers.forEach((answer, index) => {
         let correct = index == correctIndex ? 1 : 0;
         const buttonElement = document.createElement('button');
         buttonElement.type = 'button';
         buttonElement.className = 'btn btn-secondary me-2 answer-button';
-        buttonElement.innerText = answer.itemName;
+        buttonElement.innerText = answer[answerField];
         buttonElement.setAttribute('data-cor', correct);
         buttonElement.addEventListener('click', checkAnswer);
         // let btn = `<button type="button" class="btn btn-secondary me-2 answer-button" data-cor="${correct}">${answer.itemName}</button>`;
@@ -384,6 +402,10 @@ const generateAnswers = (answers = [], correctIndex = 0) => {
 
 }
 
+const getRandomQuestion = () => {
+    const randomQuestionIndex = getRandomInt(questions.length);
+    return questions[randomQuestionIndex];
+}
 
 function getRandomInt(max, exclude = []) {
     let randomNumber = Math.floor(Math.random() * max);
@@ -417,14 +439,5 @@ function checkAnswer(element) {
 }
 
 clearScoreElement.addEventListener('click', clearScore);
-
-// answerButtonElements.forEach(element => {
-
-// });
-
-for (let index = 0; index < answerButtonElements.length; index++) {
-    const element = answerButtonElements[index];
-    element.addEventListener('click', checkAnswer);
-}
 
 newQuestion();
