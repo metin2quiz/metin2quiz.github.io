@@ -480,6 +480,8 @@ function getRandomInt(max, exclude = []) {
 
 
 function checkAnswer(element) {
+    setButtonsDisabled();
+
     const isCorrect = element.target.getAttribute('data-cor');
     element = element.target;
     if (isCorrect == '1') {
@@ -498,6 +500,13 @@ function checkAnswer(element) {
         newQuestion();
     }, 1200)
 
+}
+
+function setButtonsDisabled() {
+    for (let index = 0; index < answerButtonElements.length; index++) {
+        const element = answerButtonElements[index];
+        element.setAttribute('disabled', '1');
+    }
 }
 
 clearScoreElement.addEventListener('click', clearScore);
