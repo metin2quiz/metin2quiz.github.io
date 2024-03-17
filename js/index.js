@@ -3654,7 +3654,9 @@ const clearScore = () => {
 
 const generateAnswers = (answers = [], answerField = '', correctIndex = 0) => {
     answersDivElement.innerHTML = '';
-    answers.forEach((answer, index) => {
+    
+    const uniqueAnswers = answers.distinct(answerField);
+    uniqueAnswers.forEach((answer) => {
         const buttonElement = document.createElement('button');
         buttonElement.type = 'button';
         buttonElement.className = 'btn btn-secondary me-2 answer-button';
@@ -3721,6 +3723,13 @@ function decode(data) {
     return decodeURIComponent(window.atob(data));
 }
 
+Array.prototype.distinct = function (key = undefined) {
+    if (!key)
+        return [...new Set(arr)];
+
+    return [...new Map(this.map(item =>
+        [item[key], item])).values()];
+}
 
 clearScoreElement.addEventListener('click', clearScore);
 
