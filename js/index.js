@@ -3655,12 +3655,11 @@ const clearScore = () => {
 const generateAnswers = (answers = [], answerField = '', correctIndex = 0) => {
     answersDivElement.innerHTML = '';
     answers.forEach((answer, index) => {
-        let correct = index == correctIndex ? 1 : 0;
         const buttonElement = document.createElement('button');
         buttonElement.type = 'button';
         buttonElement.className = 'btn btn-secondary me-2 answer-button';
         buttonElement.innerText = answer[answerField];
-        buttonElement.setAttribute('data-cor', correct);
+        buttonElement.setAttribute('data-cor', encode(answers[correctIndex][answerField]));
         buttonElement.addEventListener('click', checkAnswer);
         // let btn = `<button type="button" class="btn btn-secondary me-2 answer-button" data-cor="${correct}">${answer.itemName}</button>`;
         answersDivElement.appendChild(buttonElement);
@@ -3686,9 +3685,10 @@ function getRandomInt(max, exclude = []) {
 function checkAnswer(element) {
     setButtonsDisabled();
 
-    const isCorrect = element.target.getAttribute('data-cor');
     element = element.target;
-    if (isCorrect == '1') {
+    const correctAnswer = element.getAttribute('data-cor');
+
+    if (decode(correctAnswer) === element.innerHTML) {
         let current = correctElement.innerHTML;
         correctElement.innerHTML = Number(current) + 1;
         element.classList.remove('btn-secondary');
@@ -3712,6 +3712,15 @@ function setButtonsDisabled() {
         element.setAttribute('disabled', '1');
     }
 }
+
+function encode(data) {
+    return window.btoa(encodeURIComponent(data));
+}
+
+function decode(data) {
+    return decodeURIComponent(window.atob(data));
+}
+
 
 clearScoreElement.addEventListener('click', clearScore);
 
