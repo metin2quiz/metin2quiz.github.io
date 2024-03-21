@@ -3664,6 +3664,7 @@ const titles = [
 ];
 
 const clearScoreElement = document.getElementById('clear-score'),
+       endgameElement = document.getElementById('endgame'),
        correctElement = document.getElementById('correct'),
        wrongElement = document.getElementById('wrong'),
        answersDivElement = document.getElementById('answers'),
@@ -3773,9 +3774,7 @@ function checkAnswer(element) {
 
        const isGameOver = checkIfNumberOfQuestionExceed();
        if (isGameOver) {
-              const successRate = getSuccessRate();
-              const title = getTitle(successRate);
-              showGameOverAlert(title, successRate);
+              endGame()
               return;
        }
 
@@ -3814,6 +3813,7 @@ function setGameMode(element) {
        setNumberOfQuestionDisabled(gameMode);
        storage.setItem('gameMode', gameMode);
        element.currentTarget.classList.toggle('shadow-success');
+       setVisiblityEndgameButton();
 }
 
 function setNumberOfQuestionDisabled(gameMode) {
@@ -3861,17 +3861,17 @@ function showGameOverAlert(title, successRate) {
               showCancelButton: true,
               confirmButtonText: "Baştan başlat",
               cancelButtonText: "Kapat",
-              footer: `Soruları <strong>%${successRate}</strong> oranında doğru cevapladın.`
+              footer: `Soruları <strong>%${successRate.toFixed(2)}</strong> oranında doğru cevapladın.`
        }).then((result) => {
               restartGame();
        });
 }
 
 function getSuccessRate() {
-       const numberOfQuestion = +storage.getItem('numberOfQuestion');
+       const numberOfAnsweredQuestion = +storage.getItem('numberOfAnsweredQuestion');
        const correct = +correctElement.innerText;
 
-       return correct / numberOfQuestion * 100;
+       return correct / numberOfAnsweredQuestion * 100;
 }
 
 function getTitle(successRate) {
@@ -3885,8 +3885,24 @@ function restartGame() {
        newQuestion();
 }
 
+function setVisiblityEndgameButton() {
+       const gameMode = storage.getItem('gameMode');
+       if (gameMode === 'unlimited')
+              endgameElement.classList.remove('display-none');
+       else endgameElement.classList.add('display-none');
+}
+
+function endGame() {
+       const successRate = getSuccessRate();
+       const title = getTitle(successRate);
+       showGameOverAlert(title, successRate);
+       restartGame();
+       return;
+}
+
 function main() {
        clearScoreElement.addEventListener('click', clearScore);
+       endgameElement.addEventListener('click', endGame);
        unlimitedModeElement.addEventListener('click', setNumberOfQuestion4Storage);
        limitedModeElement.addEventListener('click', setNumberOfQuestion4Storage);
        [limitedModeElement, unlimitedModeElement].forEach(el => el.addEventListener('click', setGameMode));
