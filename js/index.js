@@ -3603,6 +3603,66 @@ const questions = [
        }
 ];
 
+const titles = [
+       {
+              successRateMinimum: 0,
+              successRateMiximum: 12,
+              title: "Zalim",
+              text: "Aman dikkat et de itemlerin düşmesin!"
+       },
+       {
+              successRateMinimum: 12.1,
+              successRateMiximum: 24,
+              title: "Kötü Niyetli",
+              text: "Sen şimdi şamanlara dolunayını da veriyorsundur!"
+       },
+       {
+              successRateMinimum: 24.1,
+              successRateMiximum: 35,
+              title: "Hileli",
+              text: "Kapat kardeşim! Biraz elinin emeği değsin oyuna!"
+       },
+       {
+              successRateMinimum: 35.1,
+              successRateMiximum: 47,
+              title: "Agresif",
+              text: "Sakin ol şampiyon! Bir kez daha denesen üstesinden gelecek gibisin."
+       },
+       {
+              successRateMinimum: 47.1,
+              successRateMiximum: 55,
+              title: "Tarafsız",
+              text: "Ne etliye, ne sütlüye!"
+       },
+       {
+              successRateMinimum: 55.1,
+              successRateMiximum: 65,
+              title: "Arkadaşça",
+              text: `Dün yine seni andım, gözlerim doldu <br>
+              O tatlı günlerimiz bir anı oldu <br>
+              Ayrılık geldi başa, katlanmak gerek <br>
+              Seni çok çok özledim, arkadaşım eşek`
+       },
+       {
+              successRateMinimum: 65.1,
+              successRateMiximum: 75,
+              title: "İyi",
+              text: "Oyun ne kadar da çok değişmiş değil mi?"
+       },
+       {
+              successRateMinimum: 75.1,
+              successRateMiximum: 87,
+              title: "Soylu",
+              text: "Onlar don lastiği satarken sen oyunu öğretiyordun be adam!"
+       },
+       {
+              successRateMinimum: 87.1,
+              successRateMiximum: 100,
+              title: "Kahraman",
+              text: "Sen bu oyunun kitabını yazmışsın!"
+       }
+];
+
 const clearScoreElement = document.getElementById('clear-score'),
        correctElement = document.getElementById('correct'),
        wrongElement = document.getElementById('wrong'),
@@ -3627,13 +3687,6 @@ const getRandomCategoryItems = (data) => {
 };
 
 const newQuestion = () => {
-
-       const isGameOver = checkIfNumberOfQuestionExceed();
-       if (isGameOver) {
-              alert('oyun bitti');
-              return;
-       }
-
        const randomQuestion = getRandomQuestion();
        const randomCategoryItems = getRandomCategoryItems(items),
               randomCategoryItemsLength = randomCategoryItems.length;
@@ -3662,6 +3715,7 @@ const newQuestion = () => {
 const clearScore = () => {
        correctElement.innerText = 0;
        wrongElement.innerText = 0;
+       storage.setItem('numberOfAnsweredQuestion', 0);
 };
 
 const generateAnswers = (answers = [], answerField = '', correctIndex = 0) => {
@@ -3716,6 +3770,15 @@ function checkAnswer(element) {
        }
        const numberOfAnsweredQuestion = storage.getItem('numberOfAnsweredQuestion');
        storage.setItem('numberOfAnsweredQuestion', +numberOfAnsweredQuestion + 1);
+
+       const isGameOver = checkIfNumberOfQuestionExceed();
+       if (isGameOver) {
+              const successRate = getSuccessRate();
+              const title = getTitle(successRate);
+              showGameOverAlert(title);
+              return;
+       }
+
        setTimeout(() => {
               newQuestion();
        }, 1200)
@@ -3790,12 +3853,47 @@ function checkIfNumberOfQuestionExceed() {
        return false;
 }
 
-clearScoreElement.addEventListener('click', clearScore);
-unlimitedModeElement.addEventListener('click', setNumberOfQuestion4Storage);
-limitedModeElement.addEventListener('click', setNumberOfQuestion4Storage);
-[limitedModeElement, unlimitedModeElement].forEach(el => el.addEventListener('click', setGameMode));
-numberOfQuestionElement.addEventListener('change', setNumberOfQuestion4Storage);
+function showGameOverAlert(title) {
+       Swal.fire({
+              title: `<strong>${title.title}</strong>`,
+              html: `${title.text}`,
+              icon: "success",
+              showCancelButton: true,
+              confirmButtonText: "Baştan başlat",
+              cancelButtonText: "Kapat"
+       }).then((result) => {
+              restartGame();
+       });
+}
 
-storage.setItem('numberOfQuestion', 25);
-storage.setItem('numberOfAnsweredQuestion', 0);
-newQuestion();
+function getSuccessRate() {
+       const numberOfQuestion = +storage.getItem('numberOfQuestion');
+       const correct = +correctElement.innerText;
+
+       return correct / numberOfQuestion * 100;
+}
+
+function getTitle(successRate) {
+       const title = titles
+              .find(t => successRate >= t.successRateMinimum && successRate <= t.successRateMiximum);
+       return title;
+}
+
+function restartGame() {
+       clearScore();
+       newQuestion();
+}
+
+function main() {
+       clearScoreElement.addEventListener('click', clearScore);
+       unlimitedModeElement.addEventListener('click', setNumberOfQuestion4Storage);
+       limitedModeElement.addEventListener('click', setNumberOfQuestion4Storage);
+       [limitedModeElement, unlimitedModeElement].forEach(el => el.addEventListener('click', setGameMode));
+       numberOfQuestionElement.addEventListener('change', setNumberOfQuestion4Storage);
+
+       storage.setItem('numberOfQuestion', 25);
+       storage.setItem('numberOfAnsweredQuestion', 0);
+       newQuestion();
+}
+
+main();
