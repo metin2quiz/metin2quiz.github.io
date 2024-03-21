@@ -3775,7 +3775,7 @@ function checkAnswer(element) {
        if (isGameOver) {
               const successRate = getSuccessRate();
               const title = getTitle(successRate);
-              showGameOverAlert(title);
+              showGameOverAlert(title, successRate);
               return;
        }
 
@@ -3853,14 +3853,15 @@ function checkIfNumberOfQuestionExceed() {
        return false;
 }
 
-function showGameOverAlert(title) {
+function showGameOverAlert(title, successRate) {
        Swal.fire({
               title: `<strong>${title.title}</strong>`,
               html: `${title.text}`,
               icon: "success",
               showCancelButton: true,
               confirmButtonText: "Baştan başlat",
-              cancelButtonText: "Kapat"
+              cancelButtonText: "Kapat",
+              footer: `Soruları <strong>%${successRate}</strong> oranında doğru cevapladın.`
        }).then((result) => {
               restartGame();
        });
