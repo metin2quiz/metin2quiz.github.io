@@ -1,0 +1,56 @@
+[
+    {
+        "successRateMinimum": 0,
+        "successRateMiximum": 12,
+        "title": "<p style=\"color:red\">Zalim</p>",
+        "text": "Aman dikkat et de itemlerin düşmesin!"
+    },
+    {
+        "successRateMinimum": 12.1,
+        "successRateMiximum": 24,
+        "title": "<p style=\"color:red\">Kötü Niyetli</p>",
+        "text": "Sen şimdi şamanlara dolunayını da veriyorsundur!"
+    },
+    {
+        "successRateMinimum": 24.1,
+        "successRateMiximum": 35,
+        "title": "<p style=\"color:darkred\">Hileli</p>",
+        "text": "Kapat kardeşim! Biraz elinin emeği değsin oyuna!"
+    },
+    {
+        "successRateMinimum": 35.1,
+        "successRateMiximum": 47,
+        "title": "<p style=\"color:brown\">Agresif</p>",
+        "text": "Sakin ol şampiyon! Bir kez daha denesen üstesinden gelecek gibisin."
+    },
+    {
+        "successRateMinimum": 47.1,
+        "successRateMiximum": 55,
+        "title": "<p style=\"color:grey\">Tarafsız</p>",
+        "text": "Ne etliye, ne sütlüye!"
+    },
+    {
+        "successRateMinimum": 55.1,
+        "successRateMiximum": 65,
+        "title": "<p style=\"color:darkblue\">Arkadaşça</p>",
+        "text": "Dün yine seni andım, gözlerim doldu <br>O tatlı günlerimiz bir anı oldu <br>Ayrılık geldi başa, katlanmak gerek <br>Seni çok çok özledim, arkadaşım eşek"
+    },
+    {
+        "successRateMinimum": 65.1,
+        "successRateMiximum": 75,
+        "title": "<p style=\"color:blue\">İyi</p>",
+        "text": "Oyun ne kadar da çok değişmiş değil mi?"
+    },
+    {
+        "successRateMinimum": 75.1,
+        "successRateMiximum": 87,
+        "title": "<p style=\"color:blue\">Soylu</p>",
+        "text": "Onlar don lastiği satarken sen oyunu öğretiyordun be adam!"
+    },
+    {
+        "successRateMinimum": 87.1,
+        "successRateMiximum": 100,
+        "title": "<p style=\"color:cyan\">Kahraman</p>",
+        "text": "Sen bu oyunun kitabını yazmışsın!"
+    }
+]
