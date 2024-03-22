@@ -3870,6 +3870,9 @@ function showGameOverAlert(title, successRate) {
 function getSuccessRate() {
        const numberOfAnsweredQuestion = +storage.getItem('numberOfAnsweredQuestion');
        const correct = +correctElement.innerText;
+       
+       if (numberOfAnsweredQuestion === 0)
+              return 0;
 
        return correct / numberOfAnsweredQuestion * 100;
 }
