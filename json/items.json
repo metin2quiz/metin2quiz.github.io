@@ -1286,7 +1286,7 @@
            {
                   "kategori": "Sura Zırhlar",
                   "level": "Seviye 34",
-                  "itemName": "Yin-Yang",
+                  "itemName": "Yin-Yang Zırhı",
                   "itemImage": "/images/6/63/Yin-Yang_Z%C4%B1rh%C4%B1.png",
                   "tasSlotu": "2"
            },
@@ -1307,7 +1307,7 @@
            {
                   "kategori": "Sura Zırhlar",
                   "level": "Seviye 54",
-                  "itemName": "Hayalet Surat",
+                  "itemName": "Hayalet Surat Zırh",
                   "itemImage": "/images/1/11/Hayalet_Surat_Z%C4%B1rh.png",
                   "tasSlotu": "3"
            },
@@ -1796,7 +1796,7 @@
            },
            {
                   "kategori": "Lycan Zırhlar",
-                  "level": "Seviy",
+                  "level": "Seviye 120",
                   "itemName": "Gök. Yılan mantosu",
                   "itemImage": "/images/a/ae/G%C3%B6k._Y%C4%B1lan_mantosu.png",
                   "tasSlotu": "3"

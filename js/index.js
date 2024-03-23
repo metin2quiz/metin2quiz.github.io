@@ -48,24 +48,42 @@ const getRandomCategoryItems = (data) => {
 
 const newQuestion = () => {
        const randomQuestion = getRandomQuestion();
-       const randomCategoryItems = getRandomCategoryItems(items),
-              randomCategoryItemsLength = randomCategoryItems.length;
+       const randomCategoryItems = getRandomCategoryItems(items);
 
-       const answers = [],
-              generatedIndexes = [];
-       for (let index = 0; index < 4; index++) {
-              let randomItemIndex = getRandomInt(randomCategoryItemsLength, generatedIndexes);
-              generatedIndexes.push(randomItemIndex);
-              let randomItem = randomCategoryItems[randomItemIndex];
-              answers.push(randomItem);
-       }
-
-
-       questionElement.innerText = randomQuestion.question;
        const answerField = randomQuestion.lookupKeyName;
 
-       const correctAnswerIndex = getRandomInt(3);
+       randomCategoryItems.shuffle();
+
+       const distinctItems = randomCategoryItems.distinct(answerField);
+       const distinctItemsLength = distinctItems.length;
+
+       const answers = [];
+       let possibleAnswersCount = 4;
+
+       if (distinctItemsLength >= 4) {
+              for (let index = 0; index < 4; index++) {
+                     const element = distinctItems[index];
+                     answers.push(element);
+              }
+              answers.shuffle();
+       }
+       else {
+              possibleAnswersCount = 4 - distinctItemsLength;
+              answers.push(...distinctItems);
+              answers.shuffle();
+              const extraAnswers = [{ level: 'Seviye 110' }, { level: 'Seviye 90' }, { level: 'Seviye 87' }];
+              extraAnswers.shuffle();
+              for (let index = 0; index < possibleAnswersCount; index++) {
+                     const element = extraAnswers[index];
+                     answers.push(element);
+              }
+       }
+
+       const correctAnswerIndex = getRandomInt(possibleAnswersCount);
        const correctItem = answers[correctAnswerIndex];
+
+       questionElement.innerText = randomQuestion.question;
+
        const imageUrl = `https://tr-wiki.metin2.gameforge.com${correctItem.itemImage}`;
        itemImageElement.setAttribute('src', imageUrl);
        generateAnswers(answers, answerField, correctAnswerIndex);
@@ -166,6 +184,10 @@ Array.prototype.distinct = function (key = undefined) {
 
        return [...new Map(this.map(item =>
               [item[key], item])).values()];
+}
+
+Array.prototype.shuffle = function () {
+       this.sort(() => Math.random() - 0.5);
 }
 
 function setGameMode(element) {
