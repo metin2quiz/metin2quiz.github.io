@@ -373,7 +373,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="categoreyModal" tabindex="-1" aria-labelledby="categoreyModal" aria-hidden="true">
+    <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModal" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -382,7 +382,21 @@
                 </div>
                 <div class="modal-body pe-5 ps-5 pb-5 pt-4">
                     <div class="card-group">
-                        <div class="card" id="silahlar">
+                        <div class="card category" id="hepsi">
+                            <div class="text-center m-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="128" height="128"
+                                    fill="currentColor">
+                                    <path
+                                        d="M152.1 38.2c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L7 113C-2.3 103.6-2.3 88.4 7 79s24.6-9.4 33.9 0l22.1 22.1 55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zm0 160c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L7 273c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l22.1 22.1 55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zM224 96c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32zm0 160c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32zM160 416c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-17.7 0-32-14.3-32-32zM48 368a48 48 0 1 1 0 96 48 48 0 1 1 0-96z" />
+                                </svg>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Hepsi</h5>
+                                <p class="card-text">Karışık. Bütün kategorilerden soruları cevapla.</p>
+                            </div>
+                        </div>
+
+                        <div class="card category" id="silahlar">
                             <div class="text-center m-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="128" height="128"
                                     fill="currentColor">
@@ -396,7 +410,7 @@
                             </div>
                         </div>
 
-                        <div class="card" id="zirhlar">
+                        <div class="card category" id="zirhlar">
                             <div class="text-center m-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="128" height="128"
                                     fill="currentColor">
@@ -410,7 +424,10 @@
                             </div>
                         </div>
 
-                        <div class="card" id="kalkanlar">
+                    </div>
+
+                    <div class="card-group mt-4">
+                        <div class="card category" id="kalkanlar">
                             <div class="text-center m-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="128" height="128"
                                     fill="currentColor">
@@ -423,10 +440,7 @@
                                 <p class="card-text">Sadece kalkan kategorisinden sorular cevapla.</p>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="card-group mt-4">
-                        <div class="card" id="kasklar">
+                        <div class="card category" id="kasklar">
                             <div class="text-center m-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="128" height="128"
                                     fill="currentColor">
@@ -440,7 +454,7 @@
                             </div>
                         </div>
 
-                        <div class="card" id="takilar">
+                        <div class="card category" id="mucevherler">
                             <div class="text-center m-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="128" height="128"
                                     fill="currentColor">
@@ -458,7 +472,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
                 </div>
             </div>
         </div>

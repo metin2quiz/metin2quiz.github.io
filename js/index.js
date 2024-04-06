@@ -12,6 +12,22 @@ const questions = [
        }
 ];
 
+const category2Items = {
+       'silahlar': ['silahlar'],
+       'zirhlar': ['zirhlar'],
+       'kasklar': ['kasklar'],
+       'kalkanlar': ['kalkanlar'],
+       'mucevherler': [
+              'bilezikler',
+              'ayakkabilar',
+              'kupeler',
+              'kolyeler',
+              'eldivenler',
+              'kemerler',
+              'tilsimlar'
+       ]
+}
+
 const clearScoreElement = document.getElementById('clear-score'),
        endgameElement = document.getElementById('endgame'),
        correctElement = document.getElementById('correct'),
@@ -26,6 +42,10 @@ const limitedModeElement = document.getElementById('limited-mode'),
        unlimitedModeElement = document.getElementById('unlimited-mode'),
        numberOfQuestionElement = document.getElementById('number-of-question');
 
+const categoryElement = document.getElementById('category'),
+       categories = document.getElementsByClassName('category');
+
+
 async function fetchItems() {
        await fetch('../json/items.json')
               .then(result => result.json())
@@ -39,11 +59,22 @@ async function fetchTitles() {
 };
 
 const getRandomCategoryItems = (data) => {
-       const keys = Object.keys(data);
-       const randomCategoryIndex = getRandomInt(keys.length);
-       const randomCategoryName = keys[randomCategoryIndex];
-       const randomCategory = items[randomCategoryName];
-       return randomCategory;
+       const category = localStorage.getItem('category');
+       if (category === 'hepsi') {
+              const keys = Object.keys(data);
+              const randomCategoryIndex = getRandomInt(keys.length);
+              const randomCategoryName = keys[randomCategoryIndex];
+              const randomCategory = items[randomCategoryName];
+              return randomCategory;
+       }
+
+       const categories = category2Items[category];
+
+       const selectedItems = categories.map(c => items[c]);
+       const random = getRandomInt(selectedItems.length);
+
+       return selectedItems[random];
+
 };
 
 const newQuestion = () => {
@@ -286,6 +317,15 @@ function endGame() {
        return;
 }
 
+function setCategory(event) {
+       Array.from(categories).forEach(el => el.classList.remove('shadow-success'));
+       const target = event.currentTarget;
+       const id = target.getAttribute('id');
+       target.classList.toggle('shadow-success');
+       localStorage.setItem('category', id);
+       restartGame();
+}
+
 async function main() {
        await fetchItems();
        await fetchTitles();
@@ -295,9 +335,17 @@ async function main() {
        limitedModeElement.addEventListener('click', setNumberOfQuestion4Storage);
        [limitedModeElement, unlimitedModeElement].forEach(el => el.addEventListener('click', setGameMode));
        numberOfQuestionElement.addEventListener('change', setNumberOfQuestion4Storage);
+       categoryElement.addEventListener('click', function () {
+              const categoryModal = new bootstrap.Modal('#categoryModal');
+              categoryModal.show();
+       });
+
+       const categoryArr = Array.from(categories);
+       categoryArr.forEach(category => category.addEventListener('click', setCategory))
 
        storage.setItem('numberOfQuestion', 25);
        storage.setItem('numberOfAnsweredQuestion', 0);
+       storage.setItem('category', 'hepsi');
        newQuestion();
 
 }
